@@ -26,6 +26,7 @@ const questions = [
 ];
 const departmentChoices = []; // define department choices array
 const roleChoices = [];
+const managers =[];
 // get department choices
 connection.query('SELECT * FROM department', function(err, results) {
   if (err) throw err;
@@ -50,6 +51,18 @@ connection.query('SELECT * FROM role', function(err, results) {
     });
   });
   // console.log(roleChoices);
+});
+connection.query('SELECT * FROM employee', function(err, results) {
+  if (err) throw err;
+
+  // add department names to choices array
+  results.forEach(result => {
+    managers.push({
+      name: result.first_name + " " + result.last_name,
+      value: result.id,
+    });
+  });
+  console.log(managers);
 });
 const addRoleQuestions = [
   {
@@ -86,6 +99,13 @@ const addEmployeeQs =[
     message: 'Please select the role for the employee',
     choices: roleChoices,
     value: roleChoices.value,
+  },
+  {
+    type: 'list',
+    name: 'newEmpManager',
+    message: 'Please choose the manager for the new employee:',
+    choices: managers,
+    value: managers.value,
   },
 ];
 // prompt the user with the questions
@@ -138,12 +158,12 @@ const init = () => {
     } else if (answers.options === 'add an employee') {
       inquirer.prompt(addEmployeeQs).then(async (employeeAnswers) => {
         console.log(employeeAnswers);
-        const {newEmpfirst, newEmplast, newEmpRole} = employeeAnswers;
+        const {newEmpfirst, newEmplast, newEmpRole, newEmpManager} = employeeAnswers;
         console.log(newEmpRole);
         const [result] = await connection.promise().query(
-          'INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)', [newEmpfirst, newEmplast, newEmpRole]
+          'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [newEmpfirst, newEmplast, newEmpRole, newEmpManager]
         );
-        console.log(`New employee ${newEmpfirst} ${newEmplast} has been added with role ${newEmpRole}`);
+        console.log(`New employee ${newEmpfirst} ${newEmplast} has been added`);
         init();
       }).catch((error) => {
         console.error(error);
