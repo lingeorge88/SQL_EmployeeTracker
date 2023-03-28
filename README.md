@@ -27,9 +27,9 @@
   
 📼Below is the gif showing the functionality of the application:
   
-![Employee Tracker](./assets/employee-tracker.gif)
+![Employee Tracker gif](./Develop/assets/screenshot/MySQL%20employee%20tracker%20tutorial.gif)
   
-🎥 Video demonstration of the application can be found [here](./assets/employee-tracker.webm)  
+🎥 Video demonstration of the application can be found [here](https://youtu.be/YnQb8unW2fI)  
   
   
 ## Table of Contents

@@ -6,7 +6,7 @@ const figlet = require('figlet');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '83202310',
+  password: 'Enter Your MySQL Password HERE',
   database: 'company_db'
 });
 console.log(chalk.cyan.bold(`====================================================================================`));
