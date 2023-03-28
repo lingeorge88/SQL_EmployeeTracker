@@ -42,14 +42,14 @@ connection.query('SELECT * FROM department', function(err, results) {
 connection.query('SELECT * FROM role', function(err, results) {
   if (err) throw err;
 
-  // add role names to choices array
+  // add department names to choices array
   results.forEach(result => {
     roleChoices.push({
-      title: result.title,
-      value: result.id
+      name: result.title,
+      value: result.id,
     });
   });
-  console.log(roleChoices);
+  // console.log(roleChoices);
 });
 const addRoleQuestions = [
   {
@@ -82,69 +82,78 @@ const addEmployeeQs =[
   },
   {
     type: 'list',
-    name: 'newRoleDepartment',
+    name: 'newEmpRole',
     message: 'Please select the role for the employee',
     choices: roleChoices,
+    value: roleChoices.value,
   },
-]
+];
 // prompt the user with the questions
-const init = ()=> {inquirer.prompt(questions).then(async (answers) => {
-  if (answers.options === 'view all departments') {
-    // execute an SQL query to retrieve all departments
-    connection.query('SELECT * FROM department', function(err, results){
-      console.table(results);
-      init();
-    });
-  } else if (answers.options === 'view all roles') {
-    connection.query(`SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id;`, function(err, results){
-      console.table(results);
-      init();
-    });
-  } else if (answers.options ==='view all employees') {
-    connection.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, department.name as department, role.salary as salary, CONCAT (manager.first_name, " ", manager.last_name) AS manager
-    FROM employee
-    LEFT JOIN role ON role.id = employee.role_id
-    LEFT JOIN department ON role.department_id = department.id
-    LEFT JOIN employee manager ON employee.manager_id = manager.id`, function(err, results){
-      if(err){
-        throw(err);
-      }
-      console.table(results);
-      init();
-    });
-  } else if (answers.options === 'add a department') {
-    // execute an SQL query to add a new department
-    const { newDepartmentName } = answers;
-    connection.query('INSERT INTO department SET ?', { name: newDepartmentName }, function(err, results){
-      if (err) throw err;
-      console.log(`${newDepartmentName} department has been added!`);
-      init();
-    });
-  } else if (answers.options === 'add a role') {
-    inquirer.prompt(addRoleQuestions).then(async (roleAnswers) => {
-      console.log(roleAnswers);
-      const { newRoleTitle, newRoleSalary, newRoleDepartment } = roleAnswers;
-      const [result] = await connection.promise().query(
-        'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
-        [newRoleTitle, newRoleSalary, newRoleDepartment]
-      );
-      console.log(`New role "${newRoleTitle}" has been added with id ${result.insertId}`);
-      init();
-    }).catch((error) => {
-      console.error(error);
-    });
-  } else if (answers.options === 'add an employee') {
-    inquirer.prompt(addEmployeeQs).then(async (employeeAnswers) => {
-      console.log(employeeAnswers);
-      const {newEmpfirst, newEmplast, newEmprole} = employeeAnswers;
-      const [result] = await connection.promise().query(
-        'INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)', [newEmpfirst, newEmplast, newEmprole]
-      );
-      console.log(`New employee ${newEmpfirst} ${newEmplast} has been added`);
-      init();
-    });
-}).catch((error) => {
-  console.error(error);
-});
+const init = () => {
+  inquirer.prompt(questions).then(async (answers) => {
+    if (answers.options === 'view all departments') {
+      // execute an SQL query to retrieve all departments
+      connection.query('SELECT * FROM department', function(err, results) {
+        console.table(results);
+        init();
+      });
+    } else if (answers.options === 'view all roles') {
+      connection.query(`SELECT role.id, role.title, role.salary, department.name AS department FROM role LEFT JOIN department ON role.department_id = department.id;`, function(err, results) {
+        console.table(results);
+        init();
+      });
+    } else if (answers.options ==='view all employees') {
+      connection.query(`SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, department.name as department, role.salary as salary, CONCAT (manager.first_name, " ", manager.last_name) AS manager
+      FROM employee
+      LEFT JOIN role ON role.id = employee.role_id
+      LEFT JOIN department ON role.department_id = department.id
+      LEFT JOIN employee manager ON employee.manager_id = manager.id`, function(err, results) {
+        if (err) {
+          throw(err);
+        }
+        console.table(results);
+        init();
+      });
+    } else if (answers.options === 'add a department') {
+      // execute an SQL query to add a new department
+      const { newDepartmentName } = answers;
+      connection.query('INSERT INTO department SET ?', { name: newDepartmentName }, function(err, results) {
+        if (err) throw err;
+        console.log(`${newDepartmentName} department has been added!`);
+        init();
+      });
+    } else if (answers.options === 'add a role') {
+      inquirer.prompt(addRoleQuestions).then(async (roleAnswers) => {
+        console.log(roleAnswers);
+        const { newRoleTitle, newRoleSalary, newRoleDepartment } = roleAnswers;
+        const [result] = await connection.promise().query(
+          'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
+          [newRoleTitle, newRoleSalary, newRoleDepartment]
+        );
+        console.log(`New role "${newRoleTitle}" has been added with id ${result.insertId}`);
+        init();
+      }).catch((error) => {
+        console.error(error);
+      });
+    } else if (answers.options === 'add an employee') {
+      inquirer.prompt(addEmployeeQs).then(async (employeeAnswers) => {
+        console.log(employeeAnswers);
+        const {newEmpfirst, newEmplast, newEmpRole} = employeeAnswers;
+        console.log(newEmpRole);
+        const [result] = await connection.promise().query(
+          'INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)', [newEmpfirst, newEmplast, newEmpRole]
+        );
+        console.log(`New employee ${newEmpfirst} ${newEmplast} has been added with role ${newEmpRole}`);
+        init();
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+  });
+};
+
+// }).catch((error) => {
+//   console.error(error);
+// });
 
 init();
