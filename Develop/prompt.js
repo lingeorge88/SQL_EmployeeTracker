@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 const figlet = require('figlet');
-// establish a connection to your MySQL database
+// establish a connection to MySQL database
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -45,31 +45,28 @@ connection.query('SELECT * FROM department', function(err, results) {
       value: result.id
     });
   });
-  // console.log(departmentChoices);
 });
 connection.query('SELECT * FROM role', function(err, results) {
   if (err) throw err;
 
-  // add department names to choices array
+  // add role titles to roleChoices array
   results.forEach(result => {
     roleChoices.push({
       name: result.title,
       value: result.id,
     });
   });
-  // console.log(roleChoices);
 });
 connection.query('SELECT * FROM employee', function(err, results) {
   if (err) throw err;
 
-  // add department names to choices array
+  // add employee names to choices array
   results.forEach(result => {
     managers.push({
       name: result.first_name + " " + result.last_name,
       value: result.id,
     });
   });
-  // console.log(managers);
 });
 const addRoleQuestions = [
   {
@@ -195,7 +192,6 @@ const init = () => {
       inquirer.prompt(updateRoleQs).then(async (roleAnswers) => {
         console.log(roleAnswers);
         const {empChoices, newRole} = roleAnswers;
-        // console.log(newEmpRole);
         const [result] = await connection.promise().query(
           'UPDATE employee SET role_id = ? WHERE id = ?', [newRole, empChoices]
         );

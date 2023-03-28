@@ -25,7 +25,7 @@
 
 ![ Employee Tracker](./Develop/assets/screenshot/appScreenShot.png)
   
-💻 Below is the gif showing the functionality of the application:
+📼Below is the gif showing the functionality of the application:
   
 ![Employee Tracker](./assets/employee-tracker.gif)
   
@@ -34,13 +34,12 @@
   
 ## Table of Contents
 - [Description](#description)
-- [User Story](#user-story)
-- [Acceptance Criteria](#acceptance-criteria)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
 - [Contributing](#contributing)
+- [Future Developments](#future-developments)
 - [Questions](#questions)
 
 ## Installation
@@ -56,7 +55,7 @@
 ## Usage
 💻   👨‍🔧  👩‍🔧
 
-1. Open Mysql with the following command:
+1. Open Mysql with CLI inside the 'db' folder with the following command:
 
 `mysql -u root -p`
 
@@ -66,17 +65,28 @@
 
 `source seeds.sql`
 
-Run the following command at the root of your project and answer the prompted questions:
+3. On line 9 of the prompt.js file, change the password from "EnterYourMySQLPassword" to the actual MySQL password for your local machine.
+
+4. Run the following command at the root of the project and answer the choose from the list of options:
   
-`npm start`
+`node prompt.js`
 
 ## Testing
-✏️
+🧪👨‍💻
 
 No testing is currently set up
 
 ## Contributing
 :octocat: [George Lin](https://github.com/lingeorge88)
 
+## Future Developments
+🏗️🚧
+- Allow users to remove employees, roles, and departments
+
+- Allow users to view employees by manager or departments
+
+- Allow users to update employee managers, salaries, etc. 
+
+
 ## Questions
-✉️ Contact me with any questions: [email](mailto:jpd@dewoodyoil.com) , [GitHub](https://github.com/jpd61)<br />
+✉️ Contact me with any questions: [email](mailto:lingeorge04@gmail.com) , [GitHub](https://github.com/lingeorge88)<br />
