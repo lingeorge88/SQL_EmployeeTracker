@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/github/repo-size/lingeorge88/SQL_EmployeeTracker" />
     <img src="https://img.shields.io/github/languages/top/lingeorge88/SQL_EmployeeTracker"  />
     <img src="https://img.shields.io/github/issues/lingeorge88/SQL_EmployeeTracker" />
-    <img src="https://img.shields.io/github/last-commit/lingorge88/SQL_EmployeeTracker" >
+    <img src="https://img.shields.io/github/last-commit/lingeorge88/SQL_EmployeeTracker" >
     <a href="https://github.com/jpd61"><img src="https://img.shields.io/github/followers/lingeorge88?style=social" target="_blank" /></a>
 </p>
   
@@ -76,7 +76,7 @@ Run the following command at the root of your project and answer the prompted qu
 No testing is currently set up
 
 ## Contributing
-:octocat: [Joseph DeWoody](https://github.com/jpd61)
+:octocat: [George Lin](https://github.com/lingeorge88)
 
 ## Questions
 ✉️ Contact me with any questions: [email](mailto:jpd@dewoodyoil.com) , [GitHub](https://github.com/jpd61)<br />
