@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-
+const chalk = require('chalk');
+const figlet = require('figlet');
 // establish a connection to your MySQL database
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -8,13 +9,19 @@ const connection = mysql.createConnection({
   password: '83202310',
   database: 'company_db'
 });
-
+console.log(chalk.cyan.bold(`====================================================================================`));
+  console.log(``);
+  console.log(chalk.greenBright.bold(figlet.textSync('Employee Tracker Version 1.0')));
+  console.log(``);
+  console.log(`                                                          ` + chalk.greenBright.bold('Created By: George Lin'));
+  console.log(``);
+  console.log(chalk.cyan.bold(`====================================================================================`));
 // define the questions for Inquirer
 const questions = [
   {
     type: 'list',
     name: 'options',
-    message: `Welcome to this command line application, please choose from the following options: `,
+    message: `Welcome to this Employee Tracker Version 1.0, please choose from the following options: `,
     choices: ['view all departments', 'view all roles', 'view all employees', 'add a department', 'add a role', 'add an employee', 'update an employee role'],
   },
   {
@@ -62,7 +69,7 @@ connection.query('SELECT * FROM employee', function(err, results) {
       value: result.id,
     });
   });
-  console.log(managers);
+  // console.log(managers);
 });
 const addRoleQuestions = [
   {
@@ -200,9 +207,5 @@ const init = () => {
     }
   });
 };
-
-// }).catch((error) => {
-//   console.error(error);
-// });
 
 init();
