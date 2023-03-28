@@ -108,6 +108,22 @@ const addEmployeeQs =[
     value: managers.value,
   },
 ];
+const updateRoleQs = [
+  {
+    type: 'list',
+    name: 'empChoices',
+    message: 'Please select the employee whose role you want to update:',
+    choices: managers,
+    value: managers.value,
+  },
+  {
+    type: 'list',
+    name: 'newRole',
+    message: 'Please select the role that you want to assign to the employee:',
+    choices: roleChoices,
+    value: roleChoices.value,
+  },
+]
 // prompt the user with the questions
 const init = () => {
   inquirer.prompt(questions).then(async (answers) => {
@@ -164,6 +180,19 @@ const init = () => {
           'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [newEmpfirst, newEmplast, newEmpRole, newEmpManager]
         );
         console.log(`New employee ${newEmpfirst} ${newEmplast} has been added`);
+        init();
+      }).catch((error) => {
+        console.error(error);
+      });
+    } else if (answers.options === 'update an employee role') {
+      inquirer.prompt(updateRoleQs).then(async (roleAnswers) => {
+        console.log(roleAnswers);
+        const {empChoices, newRole} = roleAnswers;
+        // console.log(newEmpRole);
+        const [result] = await connection.promise().query(
+          'UPDATE employee SET role_id = ? WHERE id = ?', [newRole, empChoices]
+        );
+        console.log(`Employee role updated successfully!`);
         init();
       }).catch((error) => {
         console.error(error);
